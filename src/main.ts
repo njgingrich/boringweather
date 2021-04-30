@@ -9,14 +9,16 @@ function getOptions(cliArgs: string[]): TypeOptions {
 
     let mode = cliMode;
     if (mode) {
-        if (mode !== 'hourly') {
-            mode = 'weekly'; // default
+        if (mode !== 'hourly' && mode !== 'weekly') {
+            throw new Error(`Unknown mode set: ${mode}. Must be one of {hourly,weekly}.`);
         }
     } else {
         if (h) {
             mode = 'hourly';
         } else if (w) {
             mode = 'weekly';
+        } else {
+            mode = 'weekly'; // default
         }
     }
 
