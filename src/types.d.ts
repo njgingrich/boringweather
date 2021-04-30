@@ -9,9 +9,14 @@ type TypePointArgs = {
   y: string;
 };
 
-type TypeOptions =
-  | { mode: "latlong"; location: TypeLatLongArgs }
-  | { mode: "point"; location: TypePointArgs };
+type TypeLocation =
+  | ({ mode: "latlong" } & TypeLatLongArgs)
+  | ({ mode: "point" } & TypePointArgs);
+
+type TypeOptions = {
+  mode: "weekly" | "hourly";
+  location: TypeLocation;
+};
 
 type TypeSingleForecast = {
   number: number;

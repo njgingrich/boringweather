@@ -35,7 +35,24 @@ curl -s https://api.weather.gov/points/{LAT},{LONG} | grep \"grid
 
 You can parse out your office (gridId), x, and y from that response.
 
-### Output
+## Options
+
+### lat, long
+
+Pair of options required to determine location. Latitude and longitude, respectively.
+
+### office, x, y
+
+Trio of options alternately required to determine location. Office refers to an NWS Office, X and Y are locations
+on the forecast grid. What is the forecast grid? Here's from the [NWS API docs](https://www.weather.gov/documentation/services-web-api):
+
+> Forecasts are divided into 2.5km grids. Each NWS office is responsible for a section of the grid. The API endpoint for the forecast at a specific grid is: `https://api.weather.gov/gridpoints/{office}/{grid X},{grid Y}/forecast`
+
+### mode
+
+Can be `hourly` or `weekly`. Alternately, `-h` or `-w` can be passed instead of `--mode`.
+
+## Output
 
 Example output:
 
