@@ -1,22 +1,24 @@
 import { parse, printf, colors, date } from "./deps.ts";
-import { TypeOptions } from "./types.d.ts";
+import { TypeOptions, TypeMode, TypeForecast } from "./types.d.ts";
 import { getForecast } from "./api.ts";
 
 function getOptions(cliArgs: string[]): TypeOptions {
-    const { mode: cliMode, h, w, lat, long, office, x, y } = parse(cliArgs, {
+    const { mode: cliMode, h, w, n, lat, long, office, x, y } = parse(cliArgs, {
         string: ["lat", "long", "x", "y"],
     });
 
     let mode = cliMode;
     if (mode) {
-        if (mode !== 'hourly' && mode !== 'weekly') {
-            throw new Error(`Unknown mode set: ${mode}. Must be one of {hourly,weekly}.`);
+        if (mode !== 'hourly' && mode !== 'weekly' && mode !== 'now') {
+            throw new Error(`Unknown mode set: ${mode}. Must be one of {hourly,weekly,now}.`);
         }
     } else {
         if (h) {
             mode = 'hourly';
         } else if (w) {
             mode = 'weekly';
+        } else if (n) {
+            mode = 'now';
         } else {
             mode = 'weekly'; // default
         }
@@ -58,11 +60,18 @@ function displayHourlyForecast(forecast: TypeForecast) {
     }
 }
 
-function displayForecast(forecast: TypeForecast, mode: typeof TypeOptions.mode) {
+function displayNowForecast(forecast: TypeForecast) {
+    const period = forecast.periods[0];
+    printf(`${colors.bold("%d %s")} - %s\n`, period.temperature, period.temperatureUnit, period.shortForecast);
+}
+
+function displayForecast(forecast: TypeForecast, mode: TypeMode) {
     if (mode === 'hourly') {
         return displayHourlyForecast(forecast);
     } else if (mode === 'weekly') {
         return displayWeeklyForecast(forecast);
+    } else if (mode === 'now') {
+        return displayNowForecast(forecast);
     }
 }
 

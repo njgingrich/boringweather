@@ -50,7 +50,7 @@ on the forecast grid. What is the forecast grid? Here's from the [NWS API docs](
 
 ### mode
 
-Can be `hourly` or `weekly`. Alternately, `-h` or `-w` can be passed instead of `--mode`.
+Can be `hourly`, `weekly`, or `now`. Alternately, `-h`, `-w`, or `-n` can be passed instead of `--mode`.
 
 ## Output
 
