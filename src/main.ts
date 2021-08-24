@@ -36,6 +36,9 @@ function getOptions(cliArgs: string[]): TypeOptions {
 }
 
 function displayWeeklyForecast(forecast: TypeForecast) {
+    if (!forecast.periods || forecast.periods.length === 0) {
+        printf('No forecast found.');
+    }
     for (const period of forecast.periods) {
         printf(
             `%18-s${colors.bold("%d %s")} - %s\n`,
@@ -48,6 +51,10 @@ function displayWeeklyForecast(forecast: TypeForecast) {
 }
 
 function displayHourlyForecast(forecast: TypeForecast) {
+    if (!forecast.periods || forecast.periods.length === 0) {
+        printf("No forecast found.");
+    }
+
     for (const period of forecast.periods.slice(0, 12)) {
         const hour = date.format(new Date(period.startTime), "h:mm a");
         printf(
